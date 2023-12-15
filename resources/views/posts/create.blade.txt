@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tambah Data Post</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bold.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/perfect-scrollbar.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    
+</head>
+
+<body>
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header">
+                    <div class="d-flex justify-content-between">
+                        <div class="logo">
+                            <a href="#">
+                                <h3>ADM AlbarStyle</h3>
+                            </a>
+                        </div>
+                        <div class="toggler">
+                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-menu">
+                    <ul class="menu">
+                        <li class="sidebar-title">Menu</li>
+
+                        <li class="sidebar-item {{ request()->is('admin') ? 'active' : '' }}">
+                            <a href="/admin" class="sidebar-link">
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item {{ request()->is('admin/posts', 'admin/style') ? 'active' : '' }} has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-file-earmark-medical-fill"></i>
+                                <span>Posts</span>
+                            </a>
+                            <ul class="submenu {{ request()->is('admin/posts', 'admin/style') ? 'active' : '' }}">
+                                <li class="submenu-item {{ request()->is('admin/posts') ? 'active' : '' }}">
+                                    <a href="/admin/posts">Home</a>
+                                </li>
+                                <li class="submenu-item {{ request()->is('admin/style') ? 'active' : '' }}">
+                                    <a href="/admin/style">Style</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="sidebar-title mt-5">Logout</li>
+                        <li class="sidebar-item">
+                            <a href="/admin/logout" class="sidebar-link">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+            <div class="page-heading">
+                <div class="page-title">
+                    <h3>TAMBAH POSTS HOME</h3>
+                </div>
+                <div class="page-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card border-0 shadow-sm rounded mt-3">
+                                <div class="card-body">
+                                    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">GAMBAR</label>
+                                            <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
+                                            <!-- error message untuk title -->
+                                            @error('image')
+                                            <div class="alert alert-danger mt-2">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">JUDUL</label>
+                                            <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" placeholder="Masukkan Judul Post">
+                                            <!-- error message untuk title -->
+                                            @error('title')
+                                            <div class="alert alert-danger mt-2">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">KONTEN</label>
+                                            <textarea class="form-control @error('content') is-invalid @enderror" name="content" rows="5" placeholder="Masukkan Konten Post">{{ old('content') }}</textarea>
+                                            <!-- error message untuk content -->
+                                            @error('content')
+                                            <div class="alert alert-danger mt-2">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                        <button type="submit" class="btn btn-md btn-primary">SIMPAN</button>
+                                        <button type="reset" class="btn btn-md btn-warning">RESET</button>
+                                        <a href="/admin/posts" class="btn btn-md btn-light">BATAL</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2023 &copy; AlbarStyle</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="{{ asset('js/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+
+    <script>
+        CKEDITOR.replace('content');
+    </script>
+</body>
+
+</html>
